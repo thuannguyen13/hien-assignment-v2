@@ -16,9 +16,10 @@ public:
     void returnBook(int memberID, int bookID);
     int getID() const;
     std::string getTransactionInfo() const;
-    static void listTransactions(const std::vector<Transaction>& transactions);
+    static void listTransactions();
     static void searchTransaction(const std::vector<Transaction>& transactions, const std::string& searchCriteria);
     static void deleteTransaction(std::vector<Transaction>& transactions, int transactionID);
+    void addTransaction(int memberID, int bookID);
 
 private:
     int ID;
@@ -27,7 +28,7 @@ private:
     std::string transactionInfo;
     const std::vector<Book>* booksRef;
     const std::vector<Member>* membersRef;
-    static std::vector<Transaction> transactions;
+    static std::vector<std::pair<int, int>> transactions;
 };
 
 #endif // TRANSACTION_H

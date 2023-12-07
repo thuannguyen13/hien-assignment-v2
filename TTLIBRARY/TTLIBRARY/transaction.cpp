@@ -9,6 +9,8 @@ Transaction::Transaction(const std::vector<Book>& books, const std::vector<Membe
     // Khởi tạo các thành viên và sách ở đây nếu cần
 }
 
+std::vector<std::pair<int, int>> Transaction::transactions;
+
 void Transaction::borrowBook(int memberID, int bookID)
 {
     bool memberExists = false;
@@ -35,7 +37,10 @@ void Transaction::borrowBook(int memberID, int bookID)
     }
 
     // Truy cập borrowedBooks thông qua đối tượng Transaction hiện tại bằng "this"
+
     this->borrowedBooks.push_back(std::make_pair(memberID, bookID));
+    addTransaction(memberID, bookID);
+
     std::cout << "Sách đã được mượn thành công." << std::endl;
 }
 
@@ -54,21 +59,24 @@ void Transaction::returnBook(int memberID, int bookID)
     }
 }
 
-void Transaction::listTransactions(const std::vector<Transaction>& transactions)
+void Transaction::addTransaction(int memberID, int bookID)
 {
-    // Hiển thị danh sách giao dịch
+    transactions.push_back(std::make_pair(memberID, bookID));
+}
+
+void Transaction::listTransactions()
+{
     if (transactions.empty()) {
-        std::cout << "Không có giao dịch nào." << std::endl;
+        std::cout << "No transactions." << std::endl;
         return;
     }
 
-    std::cout << "Danh sách các giao dịch: " << std::endl;
+    std::cout << "List of transactions: " << std::endl;
     for (const auto& transaction : transactions) {
-        // Ví dụ: Hiển thị thông tin của mỗi giao dịch, ví dụ các thuộc tính của đối tượng Transaction
-        std::cout << "Thông tin giao dịch: ..."; // Bổ sung mã để hiển thị thông tin của giao dịch ở đây
-        std::cout << std::endl;
+        std::cout << "Member ID: " << transaction.first << ", Book ID: " << transaction.second << std::endl;
     }
 }
+
 int Transaction::getID() const
 {
     // Cài đặt logic để trả về ID tương ứng của Transaction

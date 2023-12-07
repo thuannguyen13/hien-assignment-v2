@@ -184,6 +184,7 @@ void transactionSubMenu(Transaction& transaction, std::vector<Transaction>& tran
             std::cout << "Enter Book ID: ";
             std::cin >> bookID;
             transaction.borrowBook(memberID, bookID);
+            Transaction::listTransactions();
             break;
         }
         case 2: {
@@ -196,7 +197,7 @@ void transactionSubMenu(Transaction& transaction, std::vector<Transaction>& tran
             break;
         }
         case 3: {
-            Transaction::listTransactions(transactions);
+            Transaction::listTransactions();
             break;
         }
         case 4: {
