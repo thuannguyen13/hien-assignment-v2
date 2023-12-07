@@ -46,16 +46,26 @@ void Transaction::borrowBook(int memberID, int bookID)
 
 void Transaction::returnBook(int memberID, int bookID)
 {
-    auto it = std::remove_if(borrowedBooks.begin(), borrowedBooks.end(),
+    auto it = std::find_if(borrowedBooks.begin(), borrowedBooks.end(),
         [memberID, bookID](const std::pair<int, int>& item) {
             return item.first == memberID && item.second == bookID;
         });
 
     if (it != borrowedBooks.end()) {
-        borrowedBooks.erase(it, borrowedBooks.end());
-        std::cout << "Sách đã được trả thành công." << std::endl;
+        borrowedBooks.erase(it);
+        std::cout << "The book has been returned successfully." << std::endl;
     } else {
-        std::cout << "Không tìm thấy thông tin mượn sách tương ứng." << std::endl;
+        std::cout << "No matching borrowing information was found." << std::endl;
+    }
+
+    // xoá transaction khỏi transactions list
+    it = std::find_if(transactions.begin(), transactions.end(),
+        [memberID, bookID](const std::pair<int, int>& item) {
+            return item.first == memberID && item.second == bookID;
+        });
+
+    if (it != transactions.end()) {
+        transactions.erase(it);
     }
 }
 
