@@ -1,41 +1,15 @@
-﻿#ifndef MEMBER_H
-#define MEMBER_H
-
-#include "member.h"
+﻿#include "member.h"
 #include "book.h" // Include the header file for Book class
 #include "transaction.h"
 #include "user.h"
-
 #include <iostream>
-
-class Member : public User {
-public:
-    Member(const std::string& name, const std::string& address, const std::string& phone,
-        int ID, int memberID, const std::string& contactInfo);
-
-    void view() const override;
-
-    // Getters specific to Member
-    int getID() const;
-    int getMemberID() const;
-    std::string getContactInfo() const;
-
-    static void listMembers(const std::vector<Member>& members);
-    static void searchMember(const std::vector<Member>& members, const std::string& searchCriteria);
-    static void addNewMember(std::vector<Member>& members);
-    static void deleteMember(std::vector<Member>& members, int memberID);
-
-private:
-    int ID;
-    int memberID;
-    std::string contactInfo;
-};
+#include <string>
+#include <vector>
 
 Member::Member(const std::string& name, const std::string& address, const std::string& phone,
-    int _ID, int _memberID, const std::string& _contactInfo)
+    int _ID, const std::string& _contactInfo)
     : User(name, address, phone)
     , ID(_ID)
-    , memberID(_memberID)
     , contactInfo(_contactInfo)
 {
 }
@@ -44,18 +18,12 @@ void Member::view() const
 {
     User::view();
     std::cout << "ID: " << ID << std::endl;
-    std::cout << "MemberID: " << memberID << std::endl;
     std::cout << "Contact Info: " << contactInfo << std::endl;
 }
 
 int Member::getID() const
 {
     return ID;
-}
-
-int Member::getMemberID() const
-{
-    return memberID;
 }
 
 std::string Member::getContactInfo() const
@@ -106,14 +74,14 @@ void Member::addNewMember(std::vector<Member>& members)
     std::cin >> ID; // Nhập giá trị cho ID
 
     // Tạo một đối tượng Member mới và thêm vào vector members
-    members.push_back(Member(name, address, phone, ID, 0, contactInfo)); // Giả sử memberID được khởi tạo mặc định là 0
+    members.push_back(Member(name, address, phone, ID, contactInfo));
     std::cout << "Member added successfully." << std::endl;
 }
 
-void Member::deleteMember(std::vector<Member>& members, int memberID)
+void Member::deleteMember(std::vector<Member>& members, int ID)
 {
     auto it = std::find_if(members.begin(), members.end(),
-        [memberID](const Member& member) { return member.getMemberID() == memberID; });
+        [ID](const Member& member) { return member.getID() == ID; });
 
     if (it != members.end()) {
         members.erase(it);
@@ -122,4 +90,3 @@ void Member::deleteMember(std::vector<Member>& members, int memberID)
         std::cout << "Member with the provided ID not found." << std::endl;
     }
 }
-#endif // MEMBER_H

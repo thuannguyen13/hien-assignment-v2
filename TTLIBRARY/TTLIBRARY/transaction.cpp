@@ -16,7 +16,7 @@ void Transaction::borrowBook(int memberID, int bookID)
 
     // Kiểm tra xem thành viên và sách có tồn tại không
     for (const Member& member : *membersRef) {
-        if (member.getMemberID() == memberID) {
+        if (member.getID() == memberID) {
             memberExists = true;
             break;
         }
